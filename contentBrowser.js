@@ -1,8 +1,9 @@
 const baseURL = 'https://skeletalvirus.github.io/lyricguesser/'
 let searchData = []
 // let foundSearchData = []
-localStorage.setItem("savedContent")
-
+if (!localStorage.getItem("savedContent")) {
+    localStorage.setItem("savedContent", JSON.stringify([]));
+}
 
 let savedContent = JSON.parse(localStorage.getItem("savedContent")) || []
 loadInstalledContent()
