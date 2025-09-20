@@ -1,4 +1,4 @@
-const baseURL = 'https://skeletalvirus.github.io/lyricguesser/'
+const baseURL = 'https://skeletalvirus.github.io/lyricguesser'
 
 let artistName = ''
 let lyricData = {

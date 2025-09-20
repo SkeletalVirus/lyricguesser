@@ -1,9 +1,9 @@
-const baseURL = 'https://skeletalvirus.github.io/lyricguesser/'
+const baseURL = 'https://skeletalvirus.github.io/lyricguesser'
 let searchData = []
 // let foundSearchData = []
 
 if(localStorage.getItem("savedContent") === null) {
-    localStorage.setItem("savedContent", JSON.parse(["0"]))
+    localStorage.setItem("savedContent", JSON.stringify(["0"]))
 }
 
 let savedContent = JSON.parse(localStorage.getItem("savedContent"))
