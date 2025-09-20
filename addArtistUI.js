@@ -1,4 +1,4 @@
-const baseURL = 'https://skeletalvirus.github.io/lyricguesser'
+const baseURL = 'https://skeletalvirus.github.io/lyricguesser/'
 
 let artistName = ''
 let lyricData = {
@@ -406,4 +406,5 @@ function editLyrics(albumID, trackID) {
     // console.log(lyricArray)
     // console.log(aID)
     // console.log(lyricData)
+
 }
