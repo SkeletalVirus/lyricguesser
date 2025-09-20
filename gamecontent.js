@@ -11,8 +11,8 @@ let correction = null
 const testFiles = ["0", "1", "2", "3", "_content"];
 
 
-// getData()
-testJSONFiles()
+getData()
+// testJSONFiles()
 
 async function testJSONFiles() {
     for (const file of testFiles) {
@@ -190,3 +190,4 @@ function loadData() {
         console.log(total)
 
     }
+
