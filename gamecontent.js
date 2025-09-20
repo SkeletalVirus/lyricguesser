@@ -14,6 +14,10 @@ getData()
 async function getData() {
     await Promise.all(
         savedContent.map(async file => {
+            if (!response.ok) {
+                console.warn(`Installed file ${file}.json not found:`, response.status);
+                return; // skip missing file
+            }
             const response = await fetch(`${baseURL}data/${file}.json`)
             const data = await response.json()
 

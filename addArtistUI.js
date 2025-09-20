@@ -11,8 +11,10 @@ let nextID = null
 fetch(`${baseURL}data/_content.json`)
     .then(response => response.json())
     .then(data => {
+        if (!data) return;
         nextID = data.nextID
     })
+    .catch(err => console.error(`Error fetching ${file}.json`, err))
 
 function updateArtistCover() {
     if (document.getElementById("artistCoverInput").value != '') {
