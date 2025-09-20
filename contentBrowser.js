@@ -50,6 +50,7 @@ async function openInfoPanel(file) {
     fetch(`${baseURL}data/${file}.json`)
     .then(response => response.json())
     .then(data => {
+        if (!data) return;
         artistNameInfo.innerHTML = data.displayedName
         posterName.innerHTML = data.posterName
         artistCoverDisplay.src = data.artistCover
@@ -62,6 +63,7 @@ async function openInfoPanel(file) {
             albumInfoDisplay.appendChild(albumObj)
         })
     })
+    .catch(err => console.error(`Error fetching ${file}.json`, err))
 
 
     exitModal.style.display = 'block'
@@ -76,6 +78,10 @@ async function loadInstalledContent() {
     await Promise.all(
         savedContent.map(async file => {
             const response = await fetch(`${baseURL}data/${file}.json`)
+            if (!response.ok) {
+                console.warn(`Installed file ${file}.json not found:`, response.status);
+                return; // skip missing file
+            }
             const data = await response.json()
 
             let contentArea = document.getElementById('dropdown_1')
@@ -145,6 +151,10 @@ async function loadAllContent() {
         Promise.all(
             contentList.map(async file => {
                 const response = await fetch(`${baseURL}data/${file}.json`)
+                if (!response.ok) {
+                    console.warn(`Installed file ${file}.json not found:`, response.status);
+                    return; // skip missing file
+                }
                 const data = await response.json()
     
                 let contentArea = document.getElementById('dropdown_2')
