@@ -14,7 +14,7 @@ getData()
 async function getData() {
     await Promise.all(
         savedContent.map(async file => {
-            const response = await fetch(`${baseURL}/data/${file}.json`)
+            const response = await fetch(`${baseURL}data/${file}.json`)
             const data = await response.json()
 
             gameData.artists.push(data)

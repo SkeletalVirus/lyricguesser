@@ -8,7 +8,7 @@ let lyricData = {
 }
 let nextID = null
 
-fetch(`${baseURL}/data/_content.json`)
+fetch(`${baseURL}data/_content.json`)
     .then(response => response.json())
     .then(data => {
         nextID = data.nextID
