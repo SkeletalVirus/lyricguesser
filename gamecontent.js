@@ -8,8 +8,29 @@ let currentScore = 0
 let highScore = 0
 let currentSong = null
 let correction = null
+const testFiles = ["0", "1", "2", "3", "_content"];
 
-getData()
+
+// getData()
+testJSONFiles()
+
+async function testJSONFiles() {
+    for (const file of testFiles) {
+        try {
+            const response = await fetch(`${baseURL}data/${file}.json`);
+            if (!response.ok) {
+                console.warn(`❌ File ${file}.json NOT found (status ${response.status})`);
+            } else {
+                const data = await response.json();
+                console.log(`✅ File ${file}.json loaded successfully`, data);
+            }
+        } catch (err) {
+            console.error(`Error fetching ${file}.json:`, err);
+        }
+    }
+}
+
+testJSONFiles();
 
 async function getData() {
     await Promise.all(
