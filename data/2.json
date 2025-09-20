@@ -1,0 +1,27 @@
+{
+    "displayedName": "the peepee poopoo man",
+    "systemName": "thepeepeepoopooman",
+    "id": 2,
+    "posterName": "Debug",
+    "artistCover": "https://i.imgflip.com/45cjfl.png",
+    "albums": [
+        {
+            "title": "test",
+            "cover": "https://i.imgflip.com/45cjfl.png",
+            "trackList": [
+                {
+                    "title": "instrumental",
+                    "lyrics": []
+                },
+                {
+                    "title": "lyrics n shit",
+                    "lyrics": [
+                        "holy crap",
+                        "lois",
+                        "im cumming"
+                    ]
+                }
+            ]
+        }
+    ]
+}

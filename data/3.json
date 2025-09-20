@@ -1,0 +1,22 @@
+{
+    "displayedName": "unlisted test",
+    "systemName": "unlistedtest",
+    "id": 3,
+    "unlisted": true,
+    "posterName": "Debug",
+    "artistCover": "https://pbs.twimg.com/media/Fuutl2DWYAEPlIG.jpg:large",
+    "albums": [
+        {
+            "title": "oh god what have i done",
+            "cover": "https://media1.tenor.com/m/ugHiwjTEA0EAAAAd/emoti-guy-joe-coin.gif",
+            "trackList": [
+                {
+                    "title": "testy",
+                    "lyrics": [
+                        "im cumming"
+                    ]
+                }
+            ]
+        }
+    ]
+}
