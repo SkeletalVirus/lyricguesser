@@ -14,16 +14,20 @@ getData()
 async function getData() {
     await Promise.all(
         savedContent.map(async file => {
-            const response = await fetch(`${baseURL}data/${file}.json`)
-            if (!response.ok) {
-                console.warn(`Installed file ${file}.json not found:`, response.status);
-                return; // skip missing file
+            try {
+                const res = await fetch(`${baseURL}data/${file}.json`)
+                if (!res.ok) {
+                    console.warn(`Installed file ${file}.json not found:`, res.status);
+                    return; // skip missing file
+                }
+                const data = await res.json()
+    
+                gameData.artists.push(data)
+    
+                console.log('pushed data to gameData')
+            } catch {
+                console.error(`Error fetching ${file}.json:`, err);
             }
-            const data = await response.json()
-
-            gameData.artists.push(data)
-
-            console.log('pushed data to gameData')
         })
     )
     console.log(gameData.artists)
