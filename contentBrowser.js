@@ -1,5 +1,10 @@
+const baseURL = 'https://skeletalvirus.github.io/lyricguesser/'
 let searchData = []
 // let foundSearchData = []
+
+if(localStorage.getItem("savedContent") === null) {
+    localStorage.setItem("savedContent", JSON.parse(["0"]))
+}
 
 let savedContent = JSON.parse(localStorage.getItem("savedContent"))
 loadInstalledContent()
@@ -43,7 +48,7 @@ async function openInfoPanel(file) {
     let artistCoverDisplay = infoPanel.querySelector('.artistCoverDisplay').querySelector('img')
     let albumInfoDisplay = infoPanel.querySelector('.albumInfoDisplay')
 
-    fetch(`./data/${file}.json`)
+    fetch(`${baseURL}/data/${file}.json`)
     .then(response => response.json())
     .then(data => {
         artistNameInfo.innerHTML = data.displayedName
@@ -71,7 +76,7 @@ async function openInfoPanel(file) {
 async function loadInstalledContent() {
     await Promise.all(
         savedContent.map(async file => {
-            const response = await fetch(`./data/${file}.json`)
+            const response = await fetch(`${baseURL}/data/${file}.json`)
             const data = await response.json()
 
             let contentArea = document.getElementById('dropdown_1')
@@ -132,7 +137,7 @@ async function loadInstalledContent() {
 async function loadAllContent() {
     let contentList = []
 
-    fetch('./data/_content.json')
+    fetch(`${baseURL}/data/_content.json`)
     .then(response => response.json())
     .then(data => {
         contentList = data.content
@@ -140,7 +145,7 @@ async function loadAllContent() {
     .then(wait => {
         Promise.all(
             contentList.map(async file => {
-                const response = await fetch(`./data/${file}.json`)
+                const response = await fetch(`${baseURL}/data/${file}.json`)
                 const data = await response.json()
     
                 let contentArea = document.getElementById('dropdown_2')
@@ -219,7 +224,7 @@ async function searchBrowse() {
         contentList = [];
 
         // Get the list of content files
-        const contentResponse = await fetch('./data/_content.json');
+        const contentResponse = await fetch(`${baseURL}/data/_content.json`);
         const contentJson = await contentResponse.json();
         contentList = contentJson.content; // assuming this is an array of file names
 
@@ -228,7 +233,7 @@ async function searchBrowse() {
             console.log('searchData undefined, populating searchData')
             await Promise.all(
                 contentList.map(async file => {
-                    const response = await fetch(`./data/${file}.json`);
+                    const response = await fetch(`${baseURL}/data/${file}.json`);
                     const data = await response.json();
                     searchData.push(data);
                 })

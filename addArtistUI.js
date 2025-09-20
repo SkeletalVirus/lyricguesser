@@ -1,8 +1,4 @@
-// const fs = require('fs')
-// const artistCover = document.getElementsByClassName("artistCover")[0]
-// const artistCoverFallback = document.getElementById("artistCoverFallback")
-// var artistCoverInput = document.getElementById("artistCoverInput")
-// const artistNameInput = document.getElementById("artistName")
+const baseURL = 'https://skeletalvirus.github.io/lyricguesser/'
 
 let artistName = ''
 let lyricData = {
@@ -12,7 +8,7 @@ let lyricData = {
 }
 let nextID = null
 
-fetch('./data/_content.json')
+fetch(`${baseURL}/data/_content.json`)
     .then(response => response.json())
     .then(data => {
         nextID = data.nextID
