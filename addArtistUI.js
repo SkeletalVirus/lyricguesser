@@ -81,17 +81,41 @@ function saveArtistData() {
     })    
 
         const json = JSON.stringify(artistData, null, 4)
-        const blob = new Blob([json], {type: 'application/json'})
-        const url = URL.createObjectURL(blob)
-        const a = document.createElement('a')
+        // const blob = new Blob([json], {type: 'application/json'})
+        // const url = URL.createObjectURL(blob)
+        // const a = document.createElement('a')
 
-        a.href = url
-        a.download = `${artistData.id}.json`
-        a.click()
+        // a.href = url
+        // a.download = `${artistData.id}.json`
+        // a.click()
 
-        URL.revokeObjectURL(url)
+        // URL.revokeObjectURL(url)
 
-        console.log(artistData)
+        // console.log(artistData)
+}
+
+async function writeGitFile(fileContent, fileID) {
+    const owner = "SkeletalVirus"
+    const repo = "lyricguesser"
+    const path = `data/${fileID}.json`
+    const token = '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'
+    const encodedContent = btoa(fileContent)
+
+    fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`, {
+        method: "PUT",
+        headers: {
+            "Authorization": `token ${token}`,
+            "Accept": "application/vnd.github.v3+json"
+        },
+        body: JSON.stringify({
+            message: "Pushed artist to servers via API",
+            content: encodedContent,
+            branch: "main"
+        })
+    })
+    .then(response => response.json())
+    .then(data => console.log("File created:", data))
+    .catch(err => console.log(err))
 }
     
 function openDropdown(dropdownID) {
