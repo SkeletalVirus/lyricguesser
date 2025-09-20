@@ -1,4 +1,4 @@
-const baseURL = 'https://skeletalvirus.github.io/lyricguesser'
+const baseURL = 'https://skeletalvirus.github.io/lyricguesser/'
 // const albumList = document.getElementById("albumList")
 let gameData = {artists: []}
 let savedContent = JSON.parse(localStorage.getItem('savedContent'))
@@ -188,4 +188,5 @@ function loadData() {
         })
 
         console.log(total)
+
     }
