@@ -115,7 +115,7 @@ function loadData() {
     });
     currentArtist = gameData.artists[0]
     resetPageData()
-    Array.from(document.getElementsByClassName(`${currentArtist.systemName}_${artist.id}`)).forEach(album => {
+    Array.from(document.getElementsByClassName(`${currentArtist.systemName}_${currentArtist.id}`)).forEach(album => {
         album.style.display = "flex"
     })
     document.getElementById("artistSelect").value = currentArtist.systemName
@@ -188,6 +188,4 @@ function loadData() {
         })
 
         console.log(total)
-
     }
-
