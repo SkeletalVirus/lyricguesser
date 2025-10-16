@@ -117,6 +117,7 @@ function loadData() {
     resetPageData()
     Array.from(document.getElementsByClassName(`${currentArtist.systemName}_${currentArtist.id}`)).forEach(album => {
         album.style.display = "flex"
+        console.log(album)
     })
     document.getElementById("artistSelect").value = currentArtist.systemName
     highScore = localStorage.getItem("highscore")
@@ -127,26 +128,31 @@ function loadData() {
     async function resetPageData() {
         // console.log(gameData)
         gameData.artists.forEach(artist => {
-            // console.log(artist.systemName)
-            console.log(document.getElementsByClassName(artist.systemName))
-            Array.from(document.getElementsByClassName(artist.systemName)).forEach(album => {
+            console.log(artist.systemName)
+            console.log(document.getElementsByClassName(`${artist.systemName}_${artist.id}`))
+            Array.from(document.getElementsByClassName(`${artist.systemName}_${artist.id}`)).forEach(album => {
                 album.style.display = "none"
             })
         })
     }
 
     function changeArtist() {
-        Array.from(document.getElementById("albumList").children).forEach(child => {
-            if (child.classList.contains(document.getElementById("artistSelect").value)) {
-                child.style.display = "flex"
-            } else {
-                child.style.display = "none"
-            }
-        })
         console.log(document.getElementById("albumList").children)
         gameData.artists.forEach(artist => {
             if (artist.systemName == document.getElementById("artistSelect").value) {
                 currentArtist = artist
+                console.log(`current artist internally set to ${currentArtist.displayedName}`)
+            }
+        })
+        console.log(Array.from(document.getElementsByClassName(`${document.getElementById("artistSelect").value}`)))
+        console.log(`${document.getElementById('artistSelect').value}_${currentArtist.id}`)
+        Array.from(document.getElementById("albumList").children).forEach(child => {
+            if (child.classList.contains(`${document.getElementById("artistSelect").value}_${currentArtist.id}`)) {
+                child.style.display = "flex"
+                console.log(`${child} display set to flex`)
+            } else {
+                child.style.display = "none"
+                console.log(`${child} display set to flex`)
             }
         })
         currentScore = 0
