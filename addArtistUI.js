@@ -97,7 +97,7 @@ async function writeGitFile(fileContent, fileID) {
     const owner = "SkeletalVirus"
     const repo = "lyricguesser"
     const path = `data/${fileID}.json`
-    const token = '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'
+    const token = localStorage.getItem('token')
     const encodedContent = btoa(fileContent)
 
     fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`, {
