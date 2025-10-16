@@ -79,6 +79,7 @@ function saveArtistData() {
     })    
 
         const json = JSON.stringify(artistData, null, 4)
+        writeGitFile(json, nextID)
         // const blob = new Blob([json], {type: 'application/json'})
         // const url = URL.createObjectURL(blob)
         // const a = document.createElement('a')
@@ -406,5 +407,4 @@ function editLyrics(albumID, trackID) {
     // console.log(lyricArray)
     // console.log(aID)
     // console.log(lyricData)
-
 }
