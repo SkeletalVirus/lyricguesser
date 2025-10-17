@@ -1,4 +1,4 @@
-const baseURL = 'https://lyricguesser.pages.dev'
+const baseURL = 'https://lyricguesser.pages.dev/'
 // const albumList = document.getElementById("albumList")
 let gameData = {artists: []}
 let savedContent = JSON.parse(localStorage.getItem('savedContent'))

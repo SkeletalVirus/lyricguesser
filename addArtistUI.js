@@ -1,4 +1,4 @@
-const baseURL = 'https://lyricguesser.pages.dev'
+const baseURL = 'https://lyricguesser.pages.dev/'
 
 let artistName = ''
 let lyricData = {
