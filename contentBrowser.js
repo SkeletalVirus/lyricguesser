@@ -1,4 +1,4 @@
-const baseURL = 'https://skeletalvirus.github.io/lyricguesser/'
+const baseURL = 'https://lyricguesser.pages.dev'
 let searchData = []
 // let foundSearchData = []
 if (!localStorage.getItem("savedContent")) {

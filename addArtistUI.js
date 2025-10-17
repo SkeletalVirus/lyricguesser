@@ -1,4 +1,4 @@
-const baseURL = 'https://skeletalvirus.github.io/lyricguesser/'
+const baseURL = 'https://lyricguesser.pages.dev'
 
 let artistName = ''
 let lyricData = {
@@ -94,27 +94,25 @@ function saveArtistData() {
 }
 
 async function writeGitFile(fileContent, fileID) {
-    const owner = "SkeletalVirus"
-    const repo = "lyricguesser"
-    const path = `data/${fileID}.json`
-    const token = localStorage.getItem('token')
-    const encodedContent = btoa(fileContent)
+  try {
+    const response = await fetch("/api/writeFile", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ fileContent, fileID })
+    });
 
-    fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`, {
-        method: "PUT",
-        headers: {
-            "Authorization": `token ${token}`,
-            "Accept": "application/vnd.github.v3+json"
-        },
-        body: JSON.stringify({
-            message: "Pushed artist to servers via API",
-            content: encodedContent,
-            branch: "main"
-        })
-    })
-    .then(response => response.json())
-    .then(data => console.log("File created:", data))
-    .catch(err => console.log(err))
+    const data = await response.json();
+
+    if (!response.ok) {
+      console.error("Error writing file:", data);
+      alert("❌ Failed to write file. Check console for details.");
+    } else {
+      console.log("✅ File written successfully:", data);
+      alert(`File ${fileID}.json uploaded successfully!`);
+    }
+  } catch (err) {
+    console.error("Network error while writing file:", err);
+  }
 }
     
 function openDropdown(dropdownID) {
