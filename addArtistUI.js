@@ -100,6 +100,9 @@ async function writeGitFile(fileContent, fileID) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ fileContent, fileID })
     });
+    const text = await ghResponse.text();
+    console.log("GitHub raw response:", text);
+
 
     const data = await response.json();
 
