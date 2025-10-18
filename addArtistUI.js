@@ -111,21 +111,26 @@ async function writeGitFile(fileContent, fileID) {
       body: JSON.stringify({ fileContent, fileID })
     });
 
-    if (!response.ok) {
-      const text = await response.text();
-      console.error(`GitHub write failed for ${fileID}:`, text);
-      return false;
+    const text = await response.text();
+
+    try {
+        const data = JSON.parse(text);
+        if (!response.ok) {
+            console.error(`GitHub write failed for ${fileID}:`, data);
+            return false;
+        }
+        console.log(`✅ File ${fileID}.json uploaded successfully:`, data);
+        return data;
+    } catch (err) {
+        console.error("Failed to parse JSON response:", text);
+        return false;
     }
-
-    const data = await response.json();
-    console.log(`✅ File ${fileID}.json uploaded successfully:`, data);
-    return data;
-
   } catch (err) {
     console.error("Network error while writing file:", err);
     return false;
   }
 }
+
 
 
     
