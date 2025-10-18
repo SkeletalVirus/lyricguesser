@@ -101,20 +101,31 @@ async function writeGitFile(fileContent, fileID) {
       body: JSON.stringify({ fileContent, fileID })
     });
 
-
-    const data = await response.json();
+    // Parse response safely
+    let data;
+    try {
+      data = await response.json();
+    } catch (parseErr) {
+      console.error("Failed to parse JSON response:", parseErr);
+      console.error("Raw response:", await response.text());
+      alert("❌ Unexpected response from server. Check console.");
+      return;
+    }
 
     if (!response.ok) {
       console.error("Error writing file:", data);
-      alert("❌ Failed to write file. Check console for details.");
+      alert(`❌ Failed to write file ${fileID}.json. Check console for details.`);
     } else {
-      console.log("✅ File written successfully:", data);
-      alert(`File ${fileID}.json uploaded successfully!`);
+      console.log(`✅ File ${fileID}.json uploaded successfully!`, data);
+      alert(`✅ File ${fileID}.json uploaded successfully!`);
     }
+
   } catch (err) {
     console.error("Network error while writing file:", err);
+    alert("❌ Network error. Could not contact API.");
   }
 }
+
     
 function openDropdown(dropdownID) {
     let dropdown = document.getElementById(`albumEditMenu_${dropdownID}`)
