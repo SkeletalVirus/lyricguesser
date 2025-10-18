@@ -29,69 +29,79 @@ function updateArtistCover() {
     // console.log()
 }
 
-function saveArtistData() {
-    let artistName = document.getElementById('artistName').value
-    let artistSysName = artistName.replaceAll(" ", "").toLowerCase()
-    let albums = []
+async function saveArtistData() {
+  const artistName = document.getElementById('artistName').value;
+  if (!artistName) {
+    alert("Artist name is required");
+    return;
+  }
 
-    let artistData = {
-        "displayedName": artistName,
-        "systemName": artistSysName,
-        "id": nextID,
-        "unlisted": document.getElementById('unlistedCheckToggle').checked,
-        "posterName": document.getElementById('posterName').value,
-        "artistCover": document.getElementById("artistCoverInput").value,
-        "albums": albums
+  const artistSysName = artistName.replaceAll(" ", "").toLowerCase();
+  const albums = [];
+
+  // Build artist object
+  const artistData = {
+    displayedName: artistName,
+    systemName: artistSysName,
+    id: nextID,
+    unlisted: document.getElementById('unlistedCheckToggle').checked,
+    posterName: document.getElementById('posterName').value,
+    artistCover: document.getElementById("artistCoverInput").value,
+    albums: albums
+  };
+
+  // Build albums and tracks
+  let albumID = 1;
+  Array.from(document.getElementsByClassName('albumEditDetail')).forEach(album => {
+    const albumObj = {
+      title: album.querySelector('.albumTitle').value || `Album ${albumID}`,
+      cover: album.querySelector('.albumCoverInput').value || '',
+      trackList: []
+    };
+
+    let trackID = 1;
+    Array.from(album.querySelector('.trackDetail').querySelectorAll('.trackInput')).forEach(track => {
+      const trackObj = {
+        title: track.querySelector('.trackNameField').value || `Track ${trackID}`,
+        lyrics: lyricData['aID_' + albumID]?.['tID_' + trackID] || []
+      };
+      albumObj.trackList.push(trackObj);
+      trackID++;
+    });
+
+    artistData.albums.push(albumObj);
+    albumID++;
+  });
+
+  const json = JSON.stringify(artistData, null, 4);
+
+  // 1️⃣ Upload artist file
+  const artistUpload = await writeGitFile(json, nextID);
+  if (!artistUpload) return;
+
+  // 2️⃣ Update _content.json
+  try {
+    // Fetch current _content.json
+    const contentResponse = await fetch("/data/_content.json");
+    const contentData = await contentResponse.json();
+
+    contentData.nextID = nextID + 1;  // increment nextID
+    if (!contentData.content.includes(nextID.toString())) {
+      contentData.content.push(nextID.toString());
     }
-    if (document.getElementById("artistName").value != '') {
-        artistName = document.getElementById("artistName").value
-    }
-    let albumID = 1
-    Array.from(document.getElementsByClassName('albumEditDetail')).forEach(album => {
-        console.log('looping through album')
-        let albumObj = {
-            "title": '',
-            "cover": '',
-            "trackList": []
-        }
-        
-        albumObj.cover = album.querySelector('.albumCoverInput').value
-        albumObj.title = album.querySelector('.albumTitle').value
-        
-        let trackID = 1
-        Array.from(album.querySelector('.trackDetail').querySelectorAll('.trackInput')).forEach(track => {
-            console.log('looping through track')
-            let trackObj = {
-                "title": '',
-                "lyrics": []
-            }
-            
-            // console.log(track.querySelector('.trackNameField'))
-            trackObj.title = track.querySelector('.trackNameField').value
-            trackObj.lyrics = lyricData['aID_' + albumID]['tID_' + trackID]
-            albumObj.trackList.push(trackObj)
 
-            trackID = trackID + 1
-        })
-
-        albumID = albumID + 1
-        artistData.albums.push(albumObj)
-    })    
-
-        const json = JSON.stringify(artistData, null, 4)
-        writeGitFile(json, nextID)
-        // const blob = new Blob([json], {type: 'application/json'})
-        // const url = URL.createObjectURL(blob)
-        // const a = document.createElement('a')
-
-        // a.href = url
-        // a.download = `${artistData.id}.json`
-        // a.click()
-
-        // URL.revokeObjectURL(url)
-
-        // console.log(artistData)
+    // Upload updated _content.json
+    await writeGitFile(JSON.stringify(contentData, null, 4), "_content");
+    
+    // Increment local nextID after success
+    nextID++;
+    alert(`✅ Artist "${artistName}" added successfully!`);
+  } catch (err) {
+    console.error("Error updating _content.json:", err);
+    alert("❌ Failed to update _content.json. Check console.");
+  }
 }
+
 
 async function writeGitFile(fileContent, fileID) {
   try {
@@ -101,30 +111,22 @@ async function writeGitFile(fileContent, fileID) {
       body: JSON.stringify({ fileContent, fileID })
     });
 
-    // Parse response safely
-    let data;
-    try {
-      data = await response.json();
-    } catch (parseErr) {
-      console.error("Failed to parse JSON response:", parseErr);
-      console.error("Raw response:", await response.text());
-      alert("❌ Unexpected response from server. Check console.");
-      return;
+    if (!response.ok) {
+      const text = await response.text();
+      console.error(`GitHub write failed for ${fileID}:`, text);
+      return false;
     }
 
-    if (!response.ok) {
-      console.error("Error writing file:", data);
-      alert(`❌ Failed to write file ${fileID}.json. Check console for details.`);
-    } else {
-      console.log(`✅ File ${fileID}.json uploaded successfully!`, data);
-      alert(`✅ File ${fileID}.json uploaded successfully!`);
-    }
+    const data = await response.json();
+    console.log(`✅ File ${fileID}.json uploaded successfully:`, data);
+    return data;
 
   } catch (err) {
     console.error("Network error while writing file:", err);
-    alert("❌ Network error. Could not contact API.");
+    return false;
   }
 }
+
 
     
 function openDropdown(dropdownID) {
