@@ -1,5 +1,5 @@
 const baseURL = 'https://lyricguesser.pages.dev/'
-// package.json
+// package.json2
 let artistName = ''
 let lyricData = {
     "aID_1": {
